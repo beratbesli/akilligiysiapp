@@ -1,0 +1,15 @@
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Editor and local assistant settings
+.vscode/
+.idea/
+.codex/
+.agents/
+
+# Local secrets and diagnostics
+.env
+.env.*
+!.env.example
+*.log

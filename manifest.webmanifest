@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "Akıllı Giysi — Sağlık Monitörü",
+  "short_name": "Akıllı Giysi",
+  "description": "Akıllı giysi sağlık monitörü",
+  "lang": "tr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0B0F19",
+  "theme_color": "#0B0F19",
+  "icons": [
+    {
+      "src": "assets/akilli-giysi-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

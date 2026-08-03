@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Akıllı Giysi</title>
+  <desc id="description">Kalp ritmi izleyen akıllı giysi simgesi</desc>
+  <defs>
+    <linearGradient id="background" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E293B"/>
+      <stop offset="1" stop-color="#0B0F19"/>
+    </linearGradient>
+    <linearGradient id="garment" x1="132" y1="112" x2="380" y2="412" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A5B4FC"/>
+      <stop offset="1" stop-color="#6366F1"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#background)"/>
+  <path d="M177 128 224 92h64l47 36 75 37-42 91-45-20v181c0 17-14 31-31 31H220c-17 0-31-14-31-31V236l-45 20-42-91 75-37Z" fill="url(#garment)"/>
+  <path d="M224 92c0 25 14 42 32 42s32-17 32-42" fill="none" stroke="#0B0F19" stroke-linecap="round" stroke-width="18"/>
+  <path d="M174 305h57l18-35 29 77 23-42h42" fill="none" stroke="#F8FAFC" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+  <circle cx="338" cy="305" r="10" fill="#22C55E"/>
+</svg>

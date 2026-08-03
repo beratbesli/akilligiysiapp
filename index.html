@@ -1,0 +1,2531 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Akıllı Giysi — Sağlık Monitörü</title>
+    <meta name="description" content="Akıllı giysi giyilebilir sağlık monitörü — EKG, nabız, stres takibi ve acil durum bildirimleri.">
+    <meta name="theme-color" content="#0B0F19">
+    <meta name="color-scheme" content="dark">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Akıllı Giysi">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="assets/akilli-giysi-icon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+/* ═══════════════════════════════════════════════════════════
+   AKILLI GIYSI WEB — Premium Dark Theme (iOS Optimized)
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+    --bg-color: #0B0F19;
+    --panel-bg: rgba(17, 24, 39, 0.85);
+    --panel-border: rgba(99, 102, 241, 0.15);
+    --text-primary: #F8FAFC;
+    --text-secondary: #64748B;
+    --text-accent: #818CF8;
+    
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+    --app-height: 100dvh;
+}
+
+html {
+    height: 100%;
+    background-color: var(--bg-color);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    min-height: 100dvh;
+    height: var(--app-height);
+    display: flex;
+    flex-direction: column;
+    overscroll-behavior: none;
+}
+
+/* The app fills the viewport on phones. On wider screens, the same surface is
+   presented inside an iPhone-style device frame. */
+.iphone-frame {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.iphone-screen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--bg-color);
+}
+
+@media (min-width: 768px) and (min-height: 600px) {
+    :root {
+        --safe-area-top: 34px;
+        --safe-area-bottom: 12px;
+        --safe-area-left: 0px;
+        --safe-area-right: 0px;
+    }
+
+    body {
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.2), transparent 32%),
+            radial-gradient(circle at 80% 80%, rgba(14, 165, 233, 0.12), transparent 30%),
+            #070A12;
+    }
+
+    .iphone-frame {
+        flex: none;
+        width: clamp(262px, calc(47.5vh - 24px), 416px);
+        width: clamp(262px, calc(47.5dvh - 24px), 416px);
+        min-width: 0;
+        max-width: calc(100vw - 48px);
+        height: min(876px, calc(100vh - 48px));
+        height: min(876px, calc(100dvh - 48px));
+        aspect-ratio: 416 / 876;
+        padding: 12px;
+        overflow: visible;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 62px;
+        background: linear-gradient(145deg, #42424A 0%, #111217 30%, #050507 72%, #2B2C31 100%);
+        box-shadow:
+            0 34px 78px rgba(0, 0, 0, 0.55),
+            0 6px 18px rgba(0, 0, 0, 0.38),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .iphone-frame::before,
+    .iphone-frame::after {
+        position: absolute;
+        content: '';
+        width: 4px;
+        border-radius: 4px;
+        background: linear-gradient(180deg, #36373C, #0F1014);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+    }
+
+    .iphone-frame::before {
+        top: 150px;
+        left: -4px;
+        height: 70px;
+        box-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.45),
+            0 94px 0 #202126,
+            0 95px 2px rgba(0, 0, 0, 0.45);
+    }
+
+    .iphone-frame::after {
+        top: 210px;
+        right: -4px;
+        height: 100px;
+    }
+
+    .iphone-screen {
+        border-radius: 50px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .iphone-screen .conn-overlay,
+    .iphone-screen .alert-overlay,
+    .iphone-screen .save-toast {
+        position: absolute;
+    }
+}
+
+/* ─── Header ─── */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(var(--safe-area-top) + 10px) calc(var(--safe-area-right) + 16px) 10px calc(var(--safe-area-left) + 16px);
+    background: transparent;
+}
+
+.header-titles h1 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.header-titles h2 {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+/* ─── ESP32 Connection Status ─── */
+.header-connection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.connection-status {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: color 0.4s;
+}
+
+.connection-steps {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+.conn-step {
+    width: 18px;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(51, 65, 85, 0.5);
+    transition: background 0.5s ease;
+}
+.conn-step.active {
+    background: var(--text-accent);
+    box-shadow: 0 0 6px rgba(129, 140, 248, 0.4);
+}
+.conn-step.done {
+    background: var(--success);
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.3);
+}
+
+/* ─── Main Content Area ─── */
+.app-main {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    padding-left: var(--safe-area-left);
+    padding-right: var(--safe-area-right);
+}
+
+/* ─── Status Banner ─── */
+.status-banner {
+    margin: 4px 16px 10px 16px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.status-banner.normal {
+    background-color: rgba(99, 102, 241, 0.12);
+    color: var(--text-accent);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.status-banner.warning {
+    background-color: rgba(245, 158, 11, 0.12);
+    color: #FBBF24;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.status-banner.danger {
+    background-color: rgba(239, 68, 68, 0.12);
+    color: #F87171;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* ─── Tabs Content ─── */
+.tab-content {
+    display: none;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Panels & Cards ─── */
+.panel {
+    min-width: 0;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    margin: 4px 8px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+/* ─── Pinned ECG Area ─── */
+.ecg-container {
+    height: 180px;
+    margin: 4px 8px 10px 8px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.ecg-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 2;
+}
+
+.ecg-title {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.ecg-live-indicator {
+    color: var(--success);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+canvas#ecgCanvas {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+/* ─── Scrollable Areas ─── */
+.scroll-area {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0 4px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+.scroll-area::-webkit-scrollbar {
+    width: 4px;
+}
+.scroll-area::-webkit-scrollbar-thumb {
+    background: rgba(71, 85, 105, 0.5);
+    border-radius: 2px;
+}
+
+/* ─── Stats Row ─── */
+.stats-row {
+    display: flex;
+    min-width: 0;
+    gap: 8px;
+    margin: 4px 4px 10px 4px;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 0;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(51, 65, 85, 0.5);
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all 0.3s;
+}
+
+.stat-card.danger {
+    background-color: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.25);
+}
+.stat-card.warning {
+    background-color: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.stat-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stat-icon { font-size: 14px; }
+.stat-title {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.stat-value-container {
+    display: flex;
+    align-items:baseline;
+    gap: 4px;
+}
+
+.stat-value {
+    font-size: 38px;
+    font-weight: 800;
+}
+
+.stat-unit {
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.stress-val .stat-value {
+    font-size: 22px;
+}
+
+.stress-bar-bg {
+    height: 6px;
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 3px;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.stress-bar-fill {
+    height: 100%;
+    width: 25%;
+    background: var(--success);
+    border-radius: 3px;
+    transition: width 0.4s ease, background 0.4s ease;
+}
+
+/* ─── Vibration Pattern Display ─── */
+.vibration-pattern {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    margin-top: 4px;
+    height: 14px;
+    overflow: hidden;
+}
+
+.vib-block {
+    width: 6px;
+    height: 8px;
+    border-radius: 1px;
+    transition: opacity 0.15s;
+}
+
+.vib-block.filled {
+    opacity: 1;
+}
+.vib-block.empty {
+    opacity: 0.15;
+}
+
+.vib-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-left: 4px;
+    letter-spacing: 0.5px;
+}
+
+/* BPM vibration colors */
+.vib-bpm .vib-block {
+    background: var(--danger);
+}
+
+/* Stress vibration colors */
+.vib-stress .vib-block {
+    background: var(--warning);
+}
+
+@keyframes vibPulse {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.5); }
+}
+
+.vibrating .vib-block.filled {
+    animation: vibPulse 0.3s ease infinite;
+}
+
+.vibrating .vib-block.filled:nth-child(odd) {
+    animation-delay: 0.05s;
+}
+
+/* ─── Panel Components ─── */
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+}
+
+.panel-title {
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.badge {
+    background: rgba(99, 102, 241, 0.3);
+    color: #A5B4FC;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: auto;
+}
+
+.badge.danger {
+    background: rgba(239, 68, 68, 0.25);
+    color: #FCA5A5;
+}
+
+/* ─── Scenario Buttons (redesigned) ─── */
+.scenario-panel {
+    padding-bottom: 14px;
+}
+
+.scenario-panel .panel-header {
+    border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+    margin-bottom: 4px;
+}
+
+.scenario-buttons {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    padding: 10px 12px 0 12px;
+}
+
+.btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 4px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.btn:active { transform: scale(0.96); }
+
+.scenario-btn {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 8px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.1s, box-shadow 0.3s;
+}
+
+.scenario-btn:active { transform: scale(0.95); }
+
+.scenario-btn .sc-icon {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.scenario-btn .sc-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.scenario-btn .sc-desc {
+    font-size: 9px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+.sc-normal {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    color: #6EE7B7;
+}
+.sc-normal:hover { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
+
+.sc-panic {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #FCD34D;
+}
+.sc-panic:hover { box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); }
+
+.sc-heart {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #FCA5A5;
+}
+.sc-heart:hover { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); }
+
+/* ─── Notifications ─── */
+.notification-panel { padding-bottom: 6px; }
+.notification-list {
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0 12px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+.notification-item {
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideIn 0.3s ease;
+}
+.notification-item:last-child { border-bottom: none; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+/* ─── Emergency Contact Notification Flow ─── */
+.emergency-flow {
+    margin: 8px 12px 4px 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    display: none;
+}
+
+.emergency-flow.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+.ef-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #F87171;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.ef-contact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 12px;
+    color: #CBD5E1;
+}
+
+.ef-contact .ef-icon {
+    font-size: 14px;
+}
+
+.ef-contact .ef-name {
+    flex: 1;
+    font-weight: 600;
+}
+
+.ef-contact .ef-status {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: color 0.3s;
+}
+
+.ef-contact .ef-status.sent {
+    color: var(--success);
+}
+
+@keyframes efCheckmark {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.ef-contact .ef-status.sent {
+    animation: efCheckmark 0.3s ease;
+}
+
+/* ─── Trends Tab ─── */
+.header-row {
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.header-row h3 { font-size: 16px; font-weight: 700; color: #94A3B8; }
+.header-row span { font-size: 12px; color: #475569; }
+
+/* Time range tabs */
+.time-range-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 0 16px 8px 16px;
+}
+
+.time-tab {
+    padding: 6px 14px;
+    min-height: 44px;
+    border-radius: 8px;
+    border: 1px solid rgba(51, 65, 85, 0.4);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.time-tab.active {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.3);
+    color: var(--text-accent);
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px 16px;
+}
+.compact {
+    padding: 10px 14px;
+    gap: 4px;
+}
+.compact-lbl { font-size: 10px; font-weight: 700; color: #475569; }
+.compact-val { font-size: 18px; font-weight: 800; }
+
+/* Trends chart panel */
+.trends-graph-panel {
+    height: clamp(180px, 32dvh, 250px);
+    margin: 4px 16px 0 16px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+canvas#trendsCanvas {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+}
+
+/* ─── Stress-Sleep Correlation Card ─── */
+.correlation-card {
+    margin: 10px 16px;
+    padding: 16px;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.corr-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.corr-icon { font-size: 16px; }
+
+.corr-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+.corr-body {
+    display: flex;
+    gap: 12px;
+}
+
+.corr-metric {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 8px;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+.corr-metric-icon { font-size: 20px; }
+
+.corr-metric-val {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.corr-metric-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.corr-insight {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: rgba(99, 102, 241, 0.08);
+    border-radius: 8px;
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    font-size: 11px;
+    font-weight: 500;
+    color: #A5B4FC;
+    line-height: 1.5;
+}
+
+/* ─── Profile Tab ─── */
+.profile-scroll {
+    padding: 10px 16px;
+}
+.profile-form {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0 0 16px 0;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.form-group label {
+    font-size: 12px;
+    color: #94A3B8;
+    font-weight: 600;
+}
+.form-group input {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(51, 65, 85, 0.5);
+    color: #F1F5F9;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-family: inherit;
+    min-height: 44px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s;
+}
+.form-group input:focus {
+    border-color: rgba(129, 140, 248, 0.6);
+}
+
+.btn-container {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-save {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #6EE7B7;
+    flex: 1;
+    padding: 16px;
+    font-size: 15px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.btn-save:active { transform: scale(0.97); }
+
+button {
+    touch-action: manipulation;
+}
+
+/* Profile save feedback toast */
+.save-toast {
+    position: fixed;
+    bottom: calc(var(--safe-area-bottom) + 76px);
+    left: 50%;
+    max-width: calc(100% - 32px);
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(16, 185, 129, 0.9);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 200;
+    pointer-events: none;
+}
+
+.save-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ─── Bottom Navigation ─── */
+.bottom-nav {
+    display: flex;
+    background: #0F172A;
+    border-top: 1px solid rgba(99, 102, 241, 0.2);
+    padding: 8px calc(var(--safe-area-right) + 4px) max(8px, var(--safe-area-bottom)) calc(var(--safe-area-left) + 4px);
+    z-index: 10;
+}
+
+.nav-item {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-top: 3px solid transparent;
+    color: var(--text-secondary);
+    padding: 10px 0 8px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-family: inherit;
+    cursor: pointer;
+    min-height: 44px;
+    touch-action: manipulation;
+    transition: all 0.2s;
+}
+
+.nav-item.active {
+    color: var(--text-accent);
+    border-top-color: var(--text-accent);
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.nav-icon { font-size: 16px; }
+.nav-text { font-size: 11px; font-weight: 600; }
+
+
+/* ─── Alert Overlay ─── */
+.alert-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--safe-area-top) + 16px) calc(var(--safe-area-right) + 16px) calc(var(--safe-area-bottom) + 16px) calc(var(--safe-area-left) + 16px);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.alert-overlay.show {
+    opacity: 1;
+}
+
+.alert-panel {
+    background: rgba(30, 27, 10, 0.95);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 24px;
+    width: min(360px, 100%);
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 24px 20px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.alert-overlay.show .alert-panel {
+    transform: scale(1);
+}
+
+.alert-icon { font-size: 48px; margin-bottom: 8px; }
+.alert-title { font-size: 18px; font-weight: 800; color: #FBBF24; letter-spacing: 1px; margin-bottom: 8px; }
+.alert-subtitle { font-size: 13px; color: #A8924A; margin-bottom: 16px; }
+
+.alert-details {
+    text-align: left;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.detail-row {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: #FCA5A5;
+}
+
+/* Vibration pattern in alert */
+.alert-vib-pattern {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    margin: 12px 0;
+    min-height: 20px;
+}
+
+.alert-vib-block {
+    width: 10px;
+    height: 14px;
+    border-radius: 2px;
+    transition: opacity 0.15s;
+}
+
+.alert-vib-block.filled {
+    opacity: 1;
+}
+.alert-vib-block.empty {
+    opacity: 0.15;
+}
+
+@keyframes alertVibPulse {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.6); }
+}
+
+.alert-vibrating .alert-vib-block.filled {
+    animation: alertVibPulse 0.25s ease infinite;
+}
+
+.alert-vibrating .alert-vib-block.filled:nth-child(even) {
+    animation-delay: 0.1s;
+}
+
+.alert-vib-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+}
+
+.alert-btn {
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #FCD34D;
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.alert-btn:active { transform: scale(0.96); }
+
+.alert-btn,
+.btn-save {
+    min-height: 44px;
+    touch-action: manipulation;
+}
+
+.alert-panel.critical {
+    background: rgba(35, 10, 10, 0.95);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+.alert-panel.critical .alert-title { color: #F87171; }
+.alert-panel.critical .alert-subtitle { color: #FECACA; }
+.alert-panel.critical .alert-btn {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #FCA5A5;
+}
+
+/* ─── ESP32 Connection Overlay ─── */
+.conn-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 15, 25, 0.95);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: calc(var(--safe-area-top) + 16px) calc(var(--safe-area-right) + 16px) calc(var(--safe-area-bottom) + 16px) calc(var(--safe-area-left) + 16px);
+    overflow-y: auto;
+    transition: opacity 0.25s;
+}
+
+.conn-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.conn-anim-icon {
+    font-size: 48px;
+    animation: connPulse 1.5s ease infinite;
+}
+
+@keyframes connPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.conn-anim-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.conn-anim-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: min(260px, 100%);
+}
+
+.conn-anim-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(51, 65, 85, 0.3);
+    transition: all 0.2s ease;
+}
+
+.conn-anim-step.active {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.conn-anim-step.done {
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.25);
+}
+
+.cas-icon {
+    font-size: 16px;
+    width: 22px;
+    text-align: center;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+}
+
+.conn-anim-step.active .cas-icon,
+.conn-anim-step.done .cas-icon {
+    opacity: 1;
+}
+
+.cas-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    flex: 1;
+    transition: color 0.3s;
+}
+
+.conn-anim-step.active .cas-label {
+    color: var(--text-accent);
+}
+
+.conn-anim-step.done .cas-label {
+    color: var(--success);
+}
+
+.cas-check {
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    color: var(--success);
+}
+
+.conn-anim-step.done .cas-check {
+    opacity: 1;
+}
+
+.conn-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(129, 140, 248, 0.2);
+    border-top-color: var(--text-accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    opacity: 0;
+}
+
+.conn-anim-step.active .conn-spinner {
+    opacity: 1;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="iphone-frame">
+        <div class="iphone-screen">
+
+    <!-- ESP32 Connection Animation Overlay -->
+    <div class="conn-overlay" id="connOverlay">
+        <div class="conn-anim-icon">📡</div>
+        <div class="conn-anim-title">ESP32 Bağlantısı Kuruluyor</div>
+        <div class="conn-anim-steps">
+            <div class="conn-anim-step" id="connStep1">
+                <span class="cas-icon">🔍</span>
+                <span class="cas-label">Modül aranıyor...</span>
+                <div class="conn-spinner"></div>
+                <span class="cas-check">✓</span>
+            </div>
+            <div class="conn-anim-step" id="connStep2">
+                <span class="cas-icon">📶</span>
+                <span class="cas-label">Bluetooth bulundu</span>
+                <div class="conn-spinner"></div>
+                <span class="cas-check">✓</span>
+            </div>
+            <div class="conn-anim-step" id="connStep3">
+                <span class="cas-icon">⚙️</span>
+                <span class="cas-label">Kalibrasyon</span>
+                <div class="conn-spinner"></div>
+                <span class="cas-check">✓</span>
+            </div>
+            <div class="conn-anim-step" id="connStep4">
+                <span class="cas-icon">✅</span>
+                <span class="cas-label">Bağlandı</span>
+                <div class="conn-spinner"></div>
+                <span class="cas-check">✓</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="app-header">
+        <div class="header-titles">
+            <h1>AKILLI GİYSİ</h1>
+            <h2>Sağlık Monitörü • v2.0</h2>
+        </div>
+        <div class="header-connection" id="headerConnection">
+            <div class="connection-status" id="connectionStatus">● Bağlanıyor...</div>
+            <div class="connection-steps">
+                <div class="conn-step" id="hStep1"></div>
+                <div class="conn-step" id="hStep2"></div>
+                <div class="conn-step" id="hStep3"></div>
+                <div class="conn-step" id="hStep4"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+        
+        <!-- Status Banner -->
+        <div class="status-banner normal" id="mainStatusBanner">
+            🟢 Sistem Normal
+        </div>
+
+        <!-- TAB 1: Canlı İzleme -->
+        <section class="tab-content active" id="tab-live">
+            <!-- Pinned ECG Graph -->
+            <div class="ecg-container panel">
+                <div class="ecg-header">
+                    <span class="ecg-title">EKG — CANLI İZLEME</span>
+                    <span class="ecg-live-indicator">● CANLI</span>
+                </div>
+                <canvas id="ecgCanvas"></canvas>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="scroll-area">
+                
+                <!-- Stats Row -->
+                <div class="stats-row">
+                    <div class="stat-card" id="bpmCard">
+                        <div class="stat-header">
+                            <span class="stat-icon" id="bpmIcon">❤️</span>
+                            <span class="stat-title">NABIZ</span>
+                        </div>
+                        <div class="stat-value-container">
+                            <span class="stat-value" id="bpmValue">0</span>
+                            <span class="stat-unit">BPM</span>
+                        </div>
+                        <!-- Vibration Pattern for BPM -->
+                        <div class="vibration-pattern vib-bpm" id="vibBpm" style="display:none;">
+                            <!-- ■■□■■□■■ pattern for heart rate -->
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" id="stressCard">
+                        <div class="stat-header">
+                            <span class="stat-icon">🧠</span>
+                            <span class="stat-title">STRES SEVİYESİ</span>
+                        </div>
+                        <div class="stat-value-container stress-val">
+                            <span class="stat-value" id="stressValue">Normal</span>
+                        </div>
+                        <div class="stress-bar-bg">
+                            <div class="stress-bar-fill" id="stressBarFill"></div>
+                        </div>
+                        <!-- Vibration Pattern for Stress -->
+                        <div class="vibration-pattern vib-stress" id="vibStress" style="display:none;">
+                            <!-- ■□■□■□■□ pattern for stress -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario Buttons (redesigned) -->
+                <div class="panel scenario-panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">🎮</span>
+                        <span class="panel-title">SİMÜLASYON MODU</span>
+                    </div>
+                    <div class="scenario-buttons">
+                        <button class="scenario-btn sc-normal" onclick="app.triggerScenario('Normal')">
+                            <span class="sc-icon">💚</span>
+                            <span class="sc-label">Normal</span>
+                            <span class="sc-desc">72-80 BPM</span>
+                        </button>
+                        <button class="scenario-btn sc-panic" onclick="app.triggerScenario('Panik Atak')">
+                            <span class="sc-icon">⚡</span>
+                            <span class="sc-label">Panik</span>
+                            <span class="sc-desc">130-140 BPM</span>
+                        </button>
+                        <button class="scenario-btn sc-heart" onclick="app.triggerScenario('Kalp Krizi')">
+                            <span class="sc-icon">🚨</span>
+                            <span class="sc-label">Kriz</span>
+                            <span class="sc-desc">145-185 BPM</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Emergency Contact Notification Flow -->
+                <div class="emergency-flow" id="emergencyFlow">
+                    <div class="ef-title">📲 ACİL BİLDİRİM AKIŞI</div>
+                    <div id="emergencyContacts">
+                        <!-- Dynamically filled from profile -->
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="panel notification-panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">🔔</span>
+                        <span class="panel-title">BİLDİRİMLER</span>
+                        <span class="badge" id="notifBadge">0</span>
+                    </div>
+                    <ul class="notification-list" id="notificationList">
+                        <!-- Notifications will be injected here via JS -->
+                    </ul>
+                </div>
+                
+                <!-- Extra padding for bottom scroll clearance -->
+                <div style="height: 20px;"></div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Geçmiş (Trends) -->
+        <section class="tab-content" id="tab-trends">
+            <div class="header-row">
+                <h3>📊 GEÇMİŞ TRENDLER</h3>
+            </div>
+
+            <!-- Time Range Tabs -->
+            <div class="time-range-tabs">
+                <button class="time-tab" onclick="app.setTrendRange('day')" id="trendTabDay">Son 24 Saat</button>
+                <button class="time-tab active" onclick="app.setTrendRange('week')" id="trendTabWeek">Bu Hafta</button>
+            </div>
+            
+            <!-- Trends Line Chart -->
+            <div class="panel trends-graph-panel">
+                <canvas id="trendsCanvas"></canvas>
+            </div>
+            
+            <div class="scroll-area">
+                <div class="summary-grid">
+                    <div class="stat-card compact">
+                        <span class="compact-lbl">ORT. NABIZ</span>
+                        <span class="compact-val" id="avgBpmValue" style="color: #818CF8;">76 BPM</span>
+                    </div>
+                    <div class="stat-card compact">
+                        <span class="compact-lbl">MİN</span>
+                        <span class="compact-val" id="minBpmValue" style="color: #22C55E;">54 BPM</span>
+                    </div>
+                    <div class="stat-card compact">
+                        <span class="compact-lbl">MAX</span>
+                        <span class="compact-val" id="maxBpmValue" style="color: #F59E0B;">138 BPM</span>
+                    </div>
+                    <div class="stat-card compact">
+                        <span class="compact-lbl">DİNLENME</span>
+                        <span class="compact-val" id="restBpmValue" style="color: #06B6D4;">62 BPM</span>
+                    </div>
+                </div>
+
+                <!-- Stress-Sleep Correlation Card -->
+                <div class="correlation-card">
+                    <div class="corr-header">
+                        <span class="corr-icon">🔗</span>
+                        <span class="corr-title">STRES — UYKU KORELASYONu</span>
+                    </div>
+                    <div class="corr-body">
+                        <div class="corr-metric">
+                            <span class="corr-metric-icon">😴</span>
+                            <span class="corr-metric-val" id="corrSleep" style="color: #818CF8;">6.2</span>
+                            <span class="corr-metric-lbl">Ort. Uyku (saat)</span>
+                        </div>
+                        <div class="corr-metric">
+                            <span class="corr-metric-icon">🧠</span>
+                            <span class="corr-metric-val" id="corrStress" style="color: #F59E0B;">42</span>
+                            <span class="corr-metric-lbl">Ort. Stres (%)</span>
+                        </div>
+                        <div class="corr-metric">
+                            <span class="corr-metric-icon">📊</span>
+                            <span class="corr-metric-val" id="corrScore" style="color: #22C55E;">−0.73</span>
+                            <span class="corr-metric-lbl">Korelasyon</span>
+                        </div>
+                    </div>
+                    <div class="corr-insight" id="corrInsight">
+                        💡 Bu hafta uyku süresi azaldıkça stres seviyeniz artış gösterdi. 7+ saat uyku hedefleyin.
+                    </div>
+                </div>
+
+                <div style="height: 20px;"></div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Profil -->
+        <section class="tab-content" id="tab-profile">
+            <div class="header-row">
+                <h3>👤 HASTA PROFİLİ</h3>
+                <span>Acil Durum Bilgileri</span>
+            </div>
+            
+            <div class="scroll-area profile-scroll">
+                <div class="panel profile-form">
+                    <div class="form-group">
+                        <label for="profName">👤 Ad Soyad:</label>
+                        <input type="text" id="profName" value="Ahmet Yılmaz" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="profTC">🆔 TC Kimlik No:</label>
+                        <input type="text" id="profTC" value="12345678901" inputmode="numeric" maxlength="11" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="profAge">📅 Yaş:</label>
+                        <input type="number" id="profAge" value="45" inputmode="numeric" min="0" max="130" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="profBodyStats">📏 Boy / Kilo:</label>
+                        <input type="text" id="profBodyStats" value="178 cm / 82 kg" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="profBlood">🩸 Kan Grubu:</label>
+                        <input type="text" id="profBlood" value="A Rh+" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="profConditions">🏥 Kronik Rahatsızlıklar:</label>
+                        <input type="text" id="profConditions" value="Hipertansiyon, Tip 2 Diyabet" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="profMeds">💊 Kullandığı İlaçlar:</label>
+                        <input type="text" id="profMeds" value="Metoprolol, Metformin" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="profEmergency1">📞 1. Acil Durum Kişisi:</label>
+                        <input type="text" id="profEmergency1" value="Arzu Yılmaz - 0555 123 4567" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="profEmergency2">📞 2. Acil Durum Kişisi:</label>
+                        <input type="text" id="profEmergency2" value="Mehmet Yılmaz - 0532 987 6543" autocomplete="off">
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn-save" onclick="app.saveProfile()">💾 Bilgileri Kaydet</button>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Save Toast -->
+    <div class="save-toast" id="saveToast">✅ Profil bilgileri kaydedildi!</div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="app.switchTab('live')">
+            <span class="nav-icon">📈</span>
+            <span class="nav-text">Canlı</span>
+        </button>
+        <button class="nav-item" onclick="app.switchTab('trends')">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Geçmiş</span>
+        </button>
+        <button class="nav-item" onclick="app.switchTab('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">Profil</span>
+        </button>
+    </nav>
+
+    <!-- Alert Overlay -->
+    <div class="alert-overlay" id="alertOverlay" style="display: none;">
+        <div class="alert-panel" id="alertPanel">
+            <div class="alert-icon" id="alertIcon">⚡</div>
+            <div class="alert-title" id="alertTitle">YÜKSEK STRES ALGILANDI</div>
+            <div class="alert-subtitle" id="alertSubtitle">Haptik Motor Devrede</div>
+            <!-- Vibration Pattern in Alert -->
+            <div class="alert-vib-pattern alert-vibrating" id="alertVibPattern"></div>
+            <div class="alert-vib-label" id="alertVibLabel" style="text-align:center; color: var(--text-secondary);"></div>
+            <div class="alert-details" id="alertDetails"></div>
+            <button class="btn alert-btn" id="alertBtn" onclick="app.closeAlert()">Tamam</button>
+        </div>
+    </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+// ══════════════════════════════════════════════════════════════
+//  ECG SIMULATOR
+// ══════════════════════════════════════════════════════════════
+class ECGSimulator {
+    constructor() {
+        this.baseBpm = 75;
+        this.currentBpm = 75;
+        this.baseStress = 30;
+        this.currentScenario = "Normal";
+        
+        this.phase = 0;
+        this.noiseLevel = 0.05;
+        
+        this.p_wave = { amp: 0.15, width: 0.05, offset: -0.2 };
+        this.q_wave = { amp: -0.15, width: 0.02, offset: -0.05 };
+        this.r_wave = { amp: 1.5, width: 0.03, offset: 0.0 };
+        this.s_wave = { amp: -0.3, width: 0.02, offset: 0.05 };
+        this.t_wave = { amp: 0.25, width: 0.08, offset: 0.25 };
+        
+        this.isPanicing = false;
+        this.isHeartAttack = false;
+        
+        this.updateBpm();
+    }
+
+    setScenario(scenario) {
+        this.currentScenario = scenario;
+        if (scenario === "Normal") {
+            this.baseBpm = 75;
+            this.baseStress = 30;
+            this.noiseLevel = 0.05;
+            this.isPanicing = false;
+            this.isHeartAttack = false;
+        } else if (scenario === "Panik Atak") {
+            this.baseBpm = 135;
+            this.baseStress = 85;
+            this.noiseLevel = 0.2;
+            this.isPanicing = true;
+            this.isHeartAttack = false;
+        } else if (scenario === "Kalp Krizi") {
+            this.baseBpm = 165;
+            this.baseStress = 98;
+            this.noiseLevel = 0.6;
+            this.isPanicing = false;
+            this.isHeartAttack = true;
+        }
+        this.updateBpm();
+    }
+
+    updateBpm() {
+        if (this.isPanicing) {
+            this.currentBpm = this.baseBpm + (Math.random() * 10 - 5);
+        } else if (this.isHeartAttack) {
+            this.currentBpm = this.baseBpm + (Math.random() * 40 - 20);
+        } else {
+            this.currentBpm = this.baseBpm + (Math.random() * 4 - 2);
+        }
+    }
+
+    getEcgPoint(dt = 0.016) {
+        let rrInterval = 60.0 / this.currentBpm;
+        
+        this.phase += dt / rrInterval;
+        
+        if (this.phase >= 1.0) {
+            this.phase -= 1.0;
+            this.updateBpm();
+        }
+        
+        let centeredPhase = this.phase - 0.5;
+        let signal = 0;
+        
+        if (!this.isHeartAttack || Math.random() > 0.05) {
+            signal += this.gaussian(centeredPhase, this.p_wave.amp, this.p_wave.width, this.p_wave.offset);
+            signal += this.gaussian(centeredPhase, this.q_wave.amp, this.q_wave.width, this.q_wave.offset);
+            signal += this.gaussian(centeredPhase, this.r_wave.amp, this.r_wave.width, this.r_wave.offset);
+            
+            let st_offset = this.isHeartAttack ? 0.3 : 0;
+            signal += this.gaussian(centeredPhase, this.s_wave.amp + st_offset, this.s_wave.width, this.s_wave.offset);
+            signal += this.gaussian(centeredPhase, this.t_wave.amp + st_offset, this.t_wave.width, this.t_wave.offset);
+        }
+        
+        signal += (Math.random() - 0.5) * this.noiseLevel;
+        signal += Math.sin(Date.now() / 1000) * 0.1;
+        
+        let stressLabel = "Normal";
+        let stress = this.baseStress + (Math.random() * 10 - 5);
+        if (stress > 80) stressLabel = "Kritik";
+        else if (stress > 60) stressLabel = "Yüksek";
+        else if (stress > 40) stressLabel = "Orta";
+        else stressLabel = "Düşük";
+        
+        return {
+            val: signal,
+            bpm: Math.round(this.currentBpm),
+            stressLabel: stressLabel,
+            stressValue: stress
+        };
+    }
+
+    gaussian(x, a, b, c) {
+        return a * Math.exp(-Math.pow(x - c, 2) / (2 * Math.pow(b, 2)));
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ECG RENDERER
+// ══════════════════════════════════════════════════════════════
+class ECGRenderer {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext('2d', { alpha: false });
+        this.handleResize = this.resize.bind(this);
+        
+        this.resize();
+        window.addEventListener('resize', this.handleResize, { passive: true });
+        window.visualViewport?.addEventListener('resize', this.handleResize, { passive: true });
+
+        if ('ResizeObserver' in window) {
+            this.resizeObserver = new ResizeObserver(this.handleResize);
+            this.resizeObserver.observe(this.canvas.parentElement);
+        }
+        
+        this.data = new Array(300).fill(0);
+        
+        this.draw = this.draw.bind(this);
+        requestAnimationFrame(this.draw);
+    }
+    
+    resize() {
+        const rect = this.canvas.parentElement.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.canvas.width = Math.max(1, Math.round(rect.width * dpr));
+        this.canvas.height = Math.max(1, Math.round(rect.height * dpr));
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        
+        this.w = rect.width;
+        this.h = rect.height;
+    }
+    
+    pushData(val) {
+        this.data.push(val);
+        if (this.data.length > 300) {
+            this.data.shift();
+        }
+    }
+    
+    draw() {
+        this.ctx.fillStyle = '#0B0F19';
+        this.ctx.fillRect(0, 0, this.w, this.h);
+        
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+        this.ctx.lineWidth = 1;
+        const gridBox = 20;
+        
+        this.ctx.beginPath();
+        for (let x = 0; x < this.w; x += gridBox) {
+            this.ctx.moveTo(x, 0);
+            this.ctx.lineTo(x, this.h);
+        }
+        for (let y = 0; y < this.h; y += gridBox) {
+            this.ctx.moveTo(0, y);
+            this.ctx.lineTo(this.w, y);
+        }
+        this.ctx.stroke();
+        
+        if (this.data.length > 0) {
+            this.ctx.beginPath();
+            
+            const stepX = this.w / 300;
+            const midY = this.h / 2;
+            const scaleY = this.h / 5;
+            
+            for (let i = 0; i < this.data.length; i++) {
+                const x = i * stepX;
+                const y = midY - (this.data[i] * scaleY);
+                
+                if (i === 0) this.ctx.moveTo(x, y);
+                else this.ctx.lineTo(x, y);
+            }
+            
+            this.ctx.shadowBlur = 10;
+            this.ctx.shadowColor = '#38BDF8';
+            this.ctx.strokeStyle = '#38BDF8';
+            this.ctx.lineWidth = 2.5;
+            this.ctx.lineJoin = 'round';
+            this.ctx.stroke();
+            
+            this.ctx.shadowBlur = 0;
+            
+            const grad = this.ctx.createLinearGradient(0, midY - scaleY*2, 0, this.h);
+            grad.addColorStop(0, 'rgba(56, 189, 248, 0.2)');
+            grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+            
+            this.ctx.lineTo(this.w, this.h);
+            this.ctx.lineTo(0, this.h);
+            this.ctx.fillStyle = grad;
+            this.ctx.fill();
+        }
+        
+        requestAnimationFrame(this.draw);
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  MAIN APPLICATION
+// ══════════════════════════════════════════════════════════════
+class App {
+    constructor() {
+        this.simulator = new ECGSimulator();
+        this.renderer = new ECGRenderer('ecgCanvas');
+        this.trendsInitialized = false;
+        this.trendRange = 'week'; // default to "Bu Hafta"
+        this.profileStorageKey = 'akilliGiysi_profile';
+        this.legacyProfileStorageKey = 'akilliAtlet_profile';
+        
+        // Profile field IDs
+        this.profileFields = [
+            'profName', 'profTC', 'profAge', 'profBodyStats',
+            'profBlood', 'profConditions', 'profMeds',
+            'profEmergency1', 'profEmergency2'
+        ];
+        
+        // DOM Elements
+        this.bpmValue = document.getElementById('bpmValue');
+        this.bpmCard = document.getElementById('bpmCard');
+        this.bpmIcon = document.getElementById('bpmIcon');
+        
+        this.stressValue = document.getElementById('stressValue');
+        this.stressCard = document.getElementById('stressCard');
+        this.stressBarFill = document.getElementById('stressBarFill');
+        
+        this.statusBanner = document.getElementById('mainStatusBanner');
+        this.notifList = document.getElementById('notificationList');
+        this.notifBadge = document.getElementById('notifBadge');
+        
+        this.alertOverlay = document.getElementById('alertOverlay');
+        this.alertPanel = document.getElementById('alertPanel');
+        this.trendsCanvas = document.getElementById('trendsCanvas');
+        this.avgBpmValue = document.getElementById('avgBpmValue');
+        this.minBpmValue = document.getElementById('minBpmValue');
+        this.maxBpmValue = document.getElementById('maxBpmValue');
+        this.restBpmValue = document.getElementById('restBpmValue');
+
+        this.vibBpm = document.getElementById('vibBpm');
+        this.vibStress = document.getElementById('vibStress');
+        this.emergencyFlow = document.getElementById('emergencyFlow');
+        
+        this.notifCount = 0;
+        this.bpmIconVisible = true;
+        
+        // Load profile from localStorage
+        this.loadProfile();
+        
+        this.init();
+    }
+    
+    init() {
+        let lastTime = performance.now();
+        const loop = (time) => {
+            let dt = (time - lastTime) / 1000.0;
+            lastTime = time;
+            
+            if (dt > 0.05) dt = 0.05;
+            
+            this.updateData(dt);
+            requestAnimationFrame(loop);
+        };
+        requestAnimationFrame(loop);
+        
+        // Heartbeat icon animation
+        setInterval(() => {
+            this.bpmIconVisible = !this.bpmIconVisible;
+            this.bpmIcon.style.opacity = this.bpmIconVisible ? '1' : '0.5';
+            this.bpmIcon.style.transform = this.bpmIconVisible ? 'scale(1.1)' : 'scale(1)';
+        }, 800);
+        
+        // ESP32 Connection Animation (4-step)
+        this.runConnectionAnimation();
+
+        this.handleChartResize = () => {
+            if (this.trendsInitialized) {
+                this.initTrendsChart();
+            }
+        };
+        window.addEventListener('resize', this.handleChartResize, { passive: true });
+        window.visualViewport?.addEventListener('resize', this.handleChartResize, { passive: true });
+    }
+
+    // ─── ESP32 4-Step Connection Animation ───
+    runConnectionAnimation() {
+        const steps = [
+            { id: 'connStep1', hId: 'hStep1', label: 'Modül aranıyor...', delay: 240 },
+            { id: 'connStep2', hId: 'hStep2', label: 'Bluetooth bulundu', delay: 240 },
+            { id: 'connStep3', hId: 'hStep3', label: 'Kalibrasyon', delay: 260 },
+            { id: 'connStep4', hId: 'hStep4', label: 'Bağlandı', delay: 240 }
+        ];
+
+        const connStatus = document.getElementById('connectionStatus');
+        const connOverlay = document.getElementById('connOverlay');
+        let currentStep = 0;
+
+        const advanceStep = () => {
+            if (currentStep >= steps.length) {
+                // All done
+                connStatus.innerHTML = '● ESP32 Bağlı';
+                connStatus.style.color = 'var(--success)';
+                setTimeout(() => {
+                    connOverlay.classList.add('hidden');
+                    setTimeout(() => connOverlay.style.display = 'none', 250);
+                }, 120);
+                return;
+            }
+
+            const step = steps[currentStep];
+            const stepEl = document.getElementById(step.id);
+            const headerStepEl = document.getElementById(step.hId);
+
+            // Activate current step
+            stepEl.classList.add('active');
+            headerStepEl.classList.add('active');
+            connStatus.innerHTML = '● ' + step.label;
+            connStatus.style.color = 'var(--text-accent)';
+
+            setTimeout(() => {
+                // Mark done
+                stepEl.classList.remove('active');
+                stepEl.classList.add('done');
+                headerStepEl.classList.remove('active');
+                headerStepEl.classList.add('done');
+
+                currentStep++;
+                setTimeout(advanceStep, 70);
+            }, step.delay);
+        };
+
+        // Start after a brief initial delay
+        setTimeout(advanceStep, 120);
+    }
+    
+    updateData(dt) {
+        const data = this.simulator.getEcgPoint(dt);
+        this.renderer.pushData(data.val);
+        
+        this.bpmValue.innerText = data.bpm;
+        this.stressValue.innerText = data.stressLabel;
+        
+        let stressRatio = data.stressValue / 100;
+        if (stressRatio < 0.1) stressRatio = 0.1;
+        if (stressRatio > 1) stressRatio = 1;
+        this.stressBarFill.style.width = `${stressRatio * 100}%`;
+        
+        if (data.stressLabel === 'Düşük' || data.stressLabel === 'Normal') {
+            this.stressValue.style.color = 'var(--success)';
+            this.stressBarFill.style.background = 'var(--success)';
+            this.stressCard.className = 'stat-card';
+        } else if (data.stressLabel === 'Orta' || data.stressLabel === 'Yüksek') {
+            this.stressValue.style.color = 'var(--warning)';
+            this.stressBarFill.style.background = 'var(--warning)';
+            this.stressCard.className = 'stat-card warning';
+        } else {
+            this.stressValue.style.color = 'var(--danger)';
+            this.stressBarFill.style.background = 'var(--danger)';
+            this.stressCard.className = 'stat-card danger';
+        }
+        
+        if (data.bpm >= 160) {
+            this.bpmValue.style.color = 'var(--danger)';
+            this.bpmCard.className = 'stat-card danger';
+        } else if (data.bpm >= 120) {
+            this.bpmValue.style.color = 'var(--warning)';
+            this.bpmCard.className = 'stat-card warning';
+        } else {
+            this.bpmValue.style.color = 'var(--text-primary)';
+            this.bpmCard.className = 'stat-card';
+        }
+    }
+    
+    switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(`tab-${tabId}`).classList.add('active');
+        
+        if (typeof event !== 'undefined' && event.currentTarget) {
+            event.currentTarget.classList.add('active');
+        }
+        
+        if (tabId === 'live') {
+            setTimeout(() => this.renderer.resize(), 50);
+        } else if (tabId === 'trends' && !this.trendsInitialized) {
+            this.initTrendsChart();
+            this.trendsInitialized = true;
+        }
+    }
+
+    // ─── Trend Range Switch ───
+    setTrendRange(range) {
+        this.trendRange = range;
+        
+        document.getElementById('trendTabDay').classList.toggle('active', range === 'day');
+        document.getElementById('trendTabWeek').classList.toggle('active', range === 'week');
+
+        this.initTrendsChart();
+        this.trendsInitialized = true;
+    }
+
+    initTrendsChart() {
+        if (!this.trendsCanvas) return;
+        const ctx = this.trendsCanvas.getContext('2d');
+        const rect = this.trendsCanvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        this.trendsCanvas.width = rect.width * dpr;
+        this.trendsCanvas.height = rect.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const w = rect.width;
+        const h = rect.height;
+        const padding = { top: 16, right: 16, bottom: 30, left: 34 };
+        const plotW = w - padding.left - padding.right;
+        const plotH = h - padding.top - padding.bottom;
+
+        const stats = this.getTrendStats();
+
+        // Background
+        ctx.fillStyle = '#020617';
+        ctx.fillRect(0, 0, w, h);
+
+        const yMin = 40;
+        const yMax = 160;
+        const toY = (value) => padding.top + (1 - (value - yMin) / (yMax - yMin)) * plotH;
+
+        if (this.trendRange === 'day') {
+            // ── 24-Hour View ──
+            const data = this.generateTrendSeries(stats);
+            const toX = (hour) => padding.left + (hour / 24) * plotW;
+
+            // Horizontal grid + Y labels
+            ctx.strokeStyle = 'rgba(100, 116, 139, 0.18)';
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.72)';
+            ctx.font = '10px Inter, sans-serif';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+
+            for (let bpm = yMin; bpm <= yMax; bpm += 20) {
+                const y = toY(bpm);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(w - padding.right, y);
+                ctx.stroke();
+                ctx.fillText(String(bpm), padding.left - 6, y);
+            }
+
+            // Vertical grid + X labels
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            for (let hour = 0; hour <= 24; hour += 2) {
+                const x = toX(hour);
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, h - padding.bottom);
+                ctx.stroke();
+                ctx.fillText(String(hour), x, h - padding.bottom + 8);
+            }
+
+            // Threshold line
+            const thresholdY = toY(120);
+            ctx.save();
+            ctx.setLineDash([4, 4]);
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.55)';
+            ctx.beginPath();
+            ctx.moveTo(padding.left, thresholdY);
+            ctx.lineTo(w - padding.right, thresholdY);
+            ctx.stroke();
+            ctx.restore();
+            ctx.fillStyle = 'rgba(248, 113, 113, 0.9)';
+            ctx.font = '10px Inter, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText('Yüksek Risk (120 BPM)', padding.left + 6, thresholdY - 4);
+
+            // Trend line
+            ctx.beginPath();
+            data.forEach((item, idx) => {
+                const x = toX(item.hour);
+                const y = toY(item.bpm);
+                if (idx === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+
+            ctx.strokeStyle = '#8B9DFF';
+            ctx.lineWidth = 2.2;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#7C8DFF';
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            ctx.lineTo(toX(data[data.length - 1].hour), h - padding.bottom);
+            ctx.lineTo(toX(data[0].hour), h - padding.bottom);
+            ctx.closePath();
+            const grad = ctx.createLinearGradient(0, padding.top, 0, h - padding.bottom);
+            grad.addColorStop(0, 'rgba(129, 140, 248, 0.22)');
+            grad.addColorStop(1, 'rgba(129, 140, 248, 0.02)');
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            const last = data[data.length - 1];
+            ctx.beginPath();
+            ctx.arc(toX(last.hour), toY(last.bpm), 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#A5B4FC';
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.72)';
+            ctx.font = '10px Inter, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText('BPM', 8, padding.top);
+            ctx.textAlign = 'center';
+            ctx.fillText('Saat', padding.left + (plotW / 2), h - 14);
+
+        } else {
+            // ── Week View ──
+            const days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+            const weekData = this.generateWeekSeries(stats);
+            const toX = (day) => padding.left + ((day + 0.5) / 7) * plotW;
+
+            // Horizontal grid + Y labels
+            ctx.strokeStyle = 'rgba(100, 116, 139, 0.18)';
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.72)';
+            ctx.font = '10px Inter, sans-serif';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+
+            for (let bpm = yMin; bpm <= yMax; bpm += 20) {
+                const y = toY(bpm);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(w - padding.right, y);
+                ctx.stroke();
+                ctx.fillText(String(bpm), padding.left - 6, y);
+            }
+
+            // Vertical grid + day labels
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            for (let d = 0; d < 7; d++) {
+                const x = toX(d);
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(100, 116, 139, 0.12)';
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, h - padding.bottom);
+                ctx.stroke();
+                ctx.fillStyle = d === 6 ? 'rgba(129, 140, 248, 0.9)' : 'rgba(148, 163, 184, 0.72)';
+                ctx.fillText(days[d], x, h - padding.bottom + 8);
+            }
+
+            // Threshold line
+            const thresholdY = toY(120);
+            ctx.save();
+            ctx.setLineDash([4, 4]);
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.55)';
+            ctx.beginPath();
+            ctx.moveTo(padding.left, thresholdY);
+            ctx.lineTo(w - padding.right, thresholdY);
+            ctx.stroke();
+            ctx.restore();
+
+            // Week trend line
+            ctx.beginPath();
+            weekData.forEach((item, idx) => {
+                const x = toX(idx);
+                const y = toY(item.avg);
+                if (idx === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+
+            ctx.strokeStyle = '#8B9DFF';
+            ctx.lineWidth = 2.5;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#7C8DFF';
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Area fill
+            const lastIdx = weekData.length - 1;
+            ctx.lineTo(toX(lastIdx), h - padding.bottom);
+            ctx.lineTo(toX(0), h - padding.bottom);
+            ctx.closePath();
+            const grad = ctx.createLinearGradient(0, padding.top, 0, h - padding.bottom);
+            grad.addColorStop(0, 'rgba(129, 140, 248, 0.22)');
+            grad.addColorStop(1, 'rgba(129, 140, 248, 0.02)');
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Min-max range bars for each day
+            weekData.forEach((item, idx) => {
+                const x = toX(idx);
+                const yHi = toY(item.max);
+                const yLo = toY(item.min);
+                ctx.beginPath();
+                ctx.moveTo(x, yHi);
+                ctx.lineTo(x, yLo);
+                ctx.strokeStyle = 'rgba(129, 140, 248, 0.3)';
+                ctx.lineWidth = 6;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+
+                // Average dot
+                ctx.beginPath();
+                ctx.arc(x, toY(item.avg), 4, 0, Math.PI * 2);
+                ctx.fillStyle = idx === lastIdx ? '#A5B4FC' : 'rgba(129, 140, 248, 0.6)';
+                ctx.fill();
+                if (idx === lastIdx) {
+                    ctx.beginPath();
+                    ctx.arc(x, toY(item.avg), 7, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(165, 180, 252, 0.3)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            });
+
+            // Axis
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.72)';
+            ctx.font = '10px Inter, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText('BPM', 8, padding.top);
+            ctx.textAlign = 'center';
+            ctx.fillText('Gün', padding.left + (plotW / 2), h - 14);
+        }
+    }
+
+    getTrendStats() {
+        const toNum = (el, fallback) => {
+            if (!el) return fallback;
+            const numeric = parseInt(el.innerText.replace(/[^\d]/g, ''), 10);
+            return Number.isFinite(numeric) ? numeric : fallback;
+        };
+
+        return {
+            avg: toNum(this.avgBpmValue, 76),
+            min: toNum(this.minBpmValue, 54),
+            max: toNum(this.maxBpmValue, 138),
+            rest: toNum(this.restBpmValue, 62)
+        };
+    }
+
+    generateTrendSeries(stats) {
+        const series = [];
+        for (let hour = 0; hour <= 24; hour++) {
+            let bpm;
+
+            if (hour < 2) bpm = stats.avg - 4 + (Math.random() * 8);
+            else if (hour < 9) bpm = stats.min + (Math.random() * 10);
+            else if (hour <= 10) bpm = stats.avg + 12 + (Math.random() * 18);
+            else if (hour < 18) bpm = stats.avg - 3 + (Math.random() * 10);
+            else if (hour <= 19) bpm = stats.max - 10 + (Math.random() * 12);
+            else bpm = stats.rest + 6 + (Math.random() * 14);
+
+            bpm = Math.max(stats.min, Math.min(stats.max, bpm));
+            series.push({ hour, bpm: Math.round(bpm) });
+        }
+
+        series[4].bpm = stats.min;
+        series[18].bpm = stats.max;
+        return series;
+    }
+
+    generateWeekSeries(stats) {
+        // Generate 7 days of simulated data
+        const weekData = [];
+        const baseAvgs = [72, 78, 68, 81, 74, 85, stats.avg];
+        
+        for (let d = 0; d < 7; d++) {
+            const dayAvg = baseAvgs[d] + Math.round(Math.random() * 6 - 3);
+            weekData.push({
+                avg: dayAvg,
+                min: Math.max(stats.min, dayAvg - 15 - Math.round(Math.random() * 8)),
+                max: Math.min(stats.max, dayAvg + 20 + Math.round(Math.random() * 15))
+            });
+        }
+        return weekData;
+    }
+    
+    triggerScenario(scenarioName) {
+        this.simulator.setScenario(scenarioName);
+        
+        if (scenarioName === "Normal") {
+            this.addNotification("Sistem Normal — Tüm Uyarılar Temizlendi", "✅");
+            this.statusBanner.innerText = "🟢 Sistem Normal";
+            this.statusBanner.className = "status-banner normal";
+            this.hideVibrationPatterns();
+            this.hideEmergencyFlow();
+            this.closeAlert();
+        } else if (scenarioName === "Panik Atak") {
+            this.addNotification("Panik Atak Algılandı — Haptik Motor Devreye Girdi", "⚡");
+            this.statusBanner.innerText = "🟡 Yüksek Stres — Haptik Aktif";
+            this.statusBanner.className = "status-banner warning";
+            this.showVibrationPattern('stress');
+            this.hideEmergencyFlow();
+            this.showAlert(
+                "YÜKSEK STRES ALGILANDI",
+                "Haptik Motor Devrede — Sakinleştirme Protokolü Aktif",
+                "",
+                "⚡",
+                false,
+                'stress'
+            );
+        } else if (scenarioName === "Kalp Krizi") {
+            this.addNotification("Kalp Krizi Uyarısı — Acil Protokol Başlatıldı", "🚨");
+            this.statusBanner.innerText = "🔴 KRİTİK — 112 Bilgilendirildi";
+            this.statusBanner.className = "status-banner danger";
+            this.showVibrationPattern('bpm');
+
+            // Get emergency contact names from profile
+            const em1Name = this.escapeHtml(this.getEmergencyContactName(1));
+            const em2Name = this.escapeHtml(this.getEmergencyContactName(2));
+            
+            const detailsHtml = `
+                <div class="detail-row"><span>✅</span><b>Haptik Motor:</b> Titreşim Aktif</div>
+                <div class="detail-row"><span>✅</span><b>Yakınlara Bildirim:</b> ${em1Name}, ${em2Name}</div>
+                <div class="detail-row"><span>✅</span><b>Acil Servis:</b> 112 Bilgilendirildi</div>
+            `;
+            
+            this.showAlert(
+                "KRİTİK KALBİ RİTİM BOZUKLUĞU",
+                "",
+                detailsHtml,
+                "🚨",
+                true,
+                'bpm'
+            );
+
+            // Show emergency notification flow
+            this.showEmergencyFlow();
+        }
+    }
+
+    // ─── Emergency Contact Notification Flow ───
+    getEmergencyContactName(num) {
+        const input = document.getElementById(`profEmergency${num}`);
+        if (!input || !input.value) return num === 1 ? 'Acil Kişi 1' : 'Acil Kişi 2';
+        // Parse "Name - Phone" format
+        const parts = input.value.split(' - ');
+        return parts[0].trim() || (num === 1 ? 'Acil Kişi 1' : 'Acil Kişi 2');
+    }
+
+    escapeHtml(value) {
+        const element = document.createElement('span');
+        element.textContent = value;
+        return element.innerHTML;
+    }
+
+    showEmergencyFlow() {
+        const em1Name = this.escapeHtml(this.getEmergencyContactName(1));
+        const em2Name = this.escapeHtml(this.getEmergencyContactName(2));
+
+        const container = document.getElementById('emergencyContacts');
+        container.innerHTML = `
+            <div class="ef-contact" id="efContact1">
+                <span class="ef-icon">📱</span>
+                <span class="ef-name">${em1Name}</span>
+                <span class="ef-status" id="efStatus1">bekliyor...</span>
+            </div>
+            <div class="ef-contact" id="efContact2">
+                <span class="ef-icon">📱</span>
+                <span class="ef-name">${em2Name}</span>
+                <span class="ef-status" id="efStatus2">bekliyor...</span>
+            </div>
+            <div class="ef-contact" id="efContact112">
+                <span class="ef-icon">🚑</span>
+                <span class="ef-name">112 Acil Servis</span>
+                <span class="ef-status" id="efStatus112">bekliyor...</span>
+            </div>
+        `;
+
+        this.emergencyFlow.classList.add('active');
+
+        // Simulate sequential notification sending
+        setTimeout(() => {
+            const s1 = document.getElementById('efStatus1');
+            if (s1) { s1.textContent = 'bildirim gönderildi ✓'; s1.classList.add('sent'); }
+        }, 3600);
+
+        setTimeout(() => {
+            const s2 = document.getElementById('efStatus2');
+            if (s2) { s2.textContent = 'bildirim gönderildi ✓'; s2.classList.add('sent'); }
+        }, 2400);
+
+        setTimeout(() => {
+            const s112 = document.getElementById('efStatus112');
+            if (s112) { s112.textContent = 'bildirim gönderildi ✓'; s112.classList.add('sent'); }
+        }, 1200);
+    }
+
+    hideEmergencyFlow() {
+        this.emergencyFlow.classList.remove('active');
+    }
+
+    // ─── Vibration Pattern Display ───
+    // BPM Pattern: ■■□■■□■■  (grouped doubles with gaps)
+    // Stress Pattern: ■□■□■□■□  (alternating)
+    showVibrationPattern(type) {
+        if (type === 'bpm') {
+            this.vibBpm.style.display = 'flex';
+            this.vibBpm.innerHTML = this.generateVibHTML('bpm') + '<span class="vib-label">HAPTIK</span>';
+            this.vibBpm.classList.add('vibrating');
+            this.vibStress.style.display = 'none';
+        } else {
+            this.vibStress.style.display = 'flex';
+            this.vibStress.innerHTML = this.generateVibHTML('stress') + '<span class="vib-label">HAPTIK</span>';
+            this.vibStress.classList.add('vibrating');
+            this.vibBpm.style.display = 'none';
+        }
+    }
+
+    hideVibrationPatterns() {
+        this.vibBpm.style.display = 'none';
+        this.vibStress.style.display = 'none';
+        this.vibBpm.classList.remove('vibrating');
+        this.vibStress.classList.remove('vibrating');
+    }
+
+    generateVibHTML(type) {
+        // BPM: ■■□■■□■■  (strong pulse pattern)
+        // Stress: ■□■□■□■□  (rhythmic alternating)
+        let pattern;
+        if (type === 'bpm') {
+            pattern = [1,1,0,1,1,0,1,1]; // grouped
+        } else {
+            pattern = [1,0,1,0,1,0,1,0]; // alternating
+        }
+        return pattern.map(v => 
+            `<div class="vib-block ${v ? 'filled' : 'empty'}"></div>`
+        ).join('');
+    }
+
+    generateAlertVibHTML(type) {
+        let pattern;
+        let color;
+        if (type === 'bpm') {
+            pattern = [1,1,0,1,1,0,1,1,0,1,1]; 
+            color = 'var(--danger)';
+        } else {
+            pattern = [1,0,1,0,1,0,1,0,1,0,1];
+            color = 'var(--warning)';
+        }
+        return pattern.map(v => 
+            `<div class="alert-vib-block ${v ? 'filled' : 'empty'}" style="background:${color};"></div>`
+        ).join('');
+    }
+    
+    addNotification(msg, icon) {
+        const time = new Date().toLocaleTimeString('tr-TR', { hour12: false });
+        
+        const li = document.createElement('li');
+        li.className = 'notification-item';
+        
+        let color = '#CBD5E1';
+        if (icon === '🚨') color = '#FCA5A5';
+        else if (icon === '⚡') color = '#FCD34D';
+        else if (icon === '✅') color = '#86EFAC';
+        
+        li.innerHTML = `<span>${icon}</span> <span style="color: #64748B;">${time}</span> <span style="color: ${color}; flex: 1;">${msg}</span>`;
+        
+        this.notifList.prepend(li);
+        
+        this.notifCount++;
+        this.notifBadge.innerText = this.notifCount > 99 ? '99' : this.notifCount;
+        
+        if (this.notifCount > 0) {
+            this.notifBadge.classList.add('danger');
+        }
+        
+        if (this.notifList.children.length > 15) {
+            this.notifList.removeChild(this.notifList.lastChild);
+        }
+    }
+    
+    showAlert(title, subtitle, detailsHtml, icon, isCritical, vibType) {
+        document.getElementById('alertTitle').innerText = title;
+        document.getElementById('alertSubtitle').innerText = subtitle;
+        document.getElementById('alertSubtitle').style.display = subtitle ? 'block' : 'none';
+        document.getElementById('alertDetails').innerHTML = detailsHtml;
+        document.getElementById('alertIcon').innerText = icon;
+
+        // Vibration pattern in alert
+        const vibContainer = document.getElementById('alertVibPattern');
+        const vibLabel = document.getElementById('alertVibLabel');
+        if (vibType) {
+            vibContainer.innerHTML = this.generateAlertVibHTML(vibType);
+            vibContainer.classList.add('alert-vibrating');
+            vibLabel.style.color = vibType === 'bpm' ? '#FCA5A5' : '#FCD34D';
+        } else {
+            vibContainer.innerHTML = '';
+            vibLabel.textContent = '';
+        }
+        
+        if (isCritical) {
+            this.alertPanel.className = 'alert-panel critical';
+            document.getElementById('alertBtn').innerText = 'Durumu Onayla';
+        } else {
+            this.alertPanel.className = 'alert-panel';
+            document.getElementById('alertBtn').innerText = 'Tamam';
+        }
+        
+        this.alertOverlay.style.display = 'flex';
+        setTimeout(() => this.alertOverlay.classList.add('show'), 10);
+    }
+    
+    closeAlert() {
+        this.alertOverlay.classList.remove('show');
+        const vibContainer = document.getElementById('alertVibPattern');
+        vibContainer.classList.remove('alert-vibrating');
+        setTimeout(() => {
+            this.alertOverlay.style.display = 'none';
+        }, 300);
+    }
+
+    // ─── Profile: localStorage Persistence ───
+    saveProfile() {
+        const profileData = {};
+        this.profileFields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) profileData[id] = el.value;
+        });
+        
+        try {
+            localStorage.setItem(this.profileStorageKey, JSON.stringify(profileData));
+        } catch (e) {
+            // localStorage might be unavailable
+        }
+
+        // Show toast instead of alert
+        const toast = document.getElementById('saveToast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    loadProfile() {
+        try {
+            const saved = localStorage.getItem(this.profileStorageKey);
+            const legacySaved = saved ? null : localStorage.getItem(this.legacyProfileStorageKey);
+            const profile = saved || legacySaved;
+
+            if (legacySaved) {
+                localStorage.setItem(this.profileStorageKey, legacySaved);
+                localStorage.removeItem(this.legacyProfileStorageKey);
+            }
+
+            if (profile) {
+                const data = JSON.parse(profile);
+                this.profileFields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && data[id] !== undefined) {
+                        el.value = data[id];
+                    }
+                });
+            }
+        } catch (e) {
+            // localStorage might be unavailable
+        }
+    }
+}
+
+// Keep the app aligned with the visible iPhone viewport, including the keyboard.
+const syncAppHeight = () => {
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', `${Math.round(viewportHeight)}px`);
+};
+
+syncAppHeight();
+window.addEventListener('resize', syncAppHeight, { passive: true });
+window.visualViewport?.addEventListener('resize', syncAppHeight, { passive: true });
+
+// Initialize App
+const app = new App();
+    </script>
+</body>
+</html>
