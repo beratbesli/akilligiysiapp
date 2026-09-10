@@ -960,6 +960,42 @@ button {
 .nav-icon { font-size: 16px; }
 .nav-text { font-size: 11px; font-weight: 600; }
 
+.privacy-panel {
+    padding: 14px;
+    margin-top: 12px;
+}
+
+.privacy-copy {
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 0 12px;
+}
+
+.btn-clear-data {
+    min-height: 44px;
+    width: 100%;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 12px;
+    background: rgba(239, 68, 68, 0.12);
+    color: #FCA5A5;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.btn-clear-data:focus-visible,
+.nav-item:focus-visible,
+.btn-save:focus-visible,
+.alert-btn:focus-visible,
+.scenario-btn:focus-visible,
+.time-tab:focus-visible {
+    outline: 3px solid #A5B4FC;
+    outline-offset: 2px;
+}
+
 
 /* ─── Alert Overlay ─── */
 .alert-overlay {
@@ -1233,8 +1269,8 @@ button {
         <div class="iphone-screen">
 
     <!-- ESP32 Connection Animation Overlay -->
-    <div class="conn-overlay" id="connOverlay">
-        <div class="conn-anim-icon">📡</div>
+    <div class="conn-overlay" id="connOverlay" role="status" aria-live="polite" aria-label="ESP32 bağlantı durumu">
+        <div class="conn-anim-icon" aria-hidden="true">📡</div>
         <div class="conn-anim-title">ESP32 Bağlantısı Kuruluyor</div>
         <div class="conn-anim-steps">
             <div class="conn-anim-step" id="connStep1">
@@ -1270,7 +1306,7 @@ button {
             <h1>AKILLI GİYSİ</h1>
         </div>
         <div class="header-connection" id="headerConnection">
-            <div class="connection-status" id="connectionStatus">● Bağlanıyor...</div>
+            <div class="connection-status" id="connectionStatus" role="status" aria-live="polite">● Bağlanıyor...</div>
             <div class="connection-steps">
                 <div class="conn-step" id="hStep1"></div>
                 <div class="conn-step" id="hStep2"></div>
@@ -1284,7 +1320,7 @@ button {
     <main class="app-main">
         
         <!-- Status Banner -->
-        <div class="status-banner normal" id="mainStatusBanner">
+        <div class="status-banner normal" id="mainStatusBanner" role="status" aria-live="polite">
             🟢 Sistem Normal
         </div>
 
@@ -1296,7 +1332,7 @@ button {
                     <span class="ecg-title">EKG — CANLI İZLEME</span>
                     <span class="ecg-live-indicator">● CANLI</span>
                 </div>
-                <canvas id="ecgCanvas"></canvas>
+                <canvas id="ecgCanvas" role="img" aria-label="Sentetik canlı EKG grafiği"></canvas>
             </div>
 
             <!-- Scrollable Content -->
@@ -1401,7 +1437,7 @@ button {
             
             <!-- Trends Line Chart -->
             <div class="panel trends-graph-panel">
-                <canvas id="trendsCanvas"></canvas>
+                <canvas id="trendsCanvas" role="img" aria-label="Nabız geçmiş trend grafiği"></canvas>
             </div>
             
             <div class="scroll-area">
@@ -1505,6 +1541,14 @@ button {
                 <div class="btn-container">
                     <button class="btn-save" onclick="app.saveProfile()">💾 Bilgileri Kaydet</button>
                 </div>
+                <div class="panel privacy-panel" aria-labelledby="privacyHeading">
+                    <div class="panel-header">
+                        <span class="panel-icon" aria-hidden="true">🔒</span>
+                        <span class="panel-title" id="privacyHeading">GİZLİLİK</span>
+                    </div>
+                    <p class="privacy-copy">Profil bilgileri yalnızca bu tarayıcıda saklanır. Bu cihazdaki kayıtlı profil verisini istediğiniz zaman silebilirsiniz.</p>
+                    <button type="button" class="btn-clear-data" onclick="app.clearStoredData()">🗑️ Profil verilerini sil</button>
+                </div>
             </div>
         </section>
         
@@ -1514,32 +1558,32 @@ button {
     <div class="save-toast" id="saveToast">✅ Profil bilgileri kaydedildi!</div>
 
     <!-- Bottom Navigation Bar -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="app.switchTab('live')">
+    <nav class="bottom-nav" aria-label="Ana gezinme">
+        <button type="button" class="nav-item active" aria-current="page" aria-controls="tab-live" onclick="app.switchTab('live')">
             <span class="nav-icon">📈</span>
             <span class="nav-text">Canlı</span>
         </button>
-        <button class="nav-item" onclick="app.switchTab('trends')">
+        <button type="button" class="nav-item" aria-controls="tab-trends" onclick="app.switchTab('trends')">
             <span class="nav-icon">📊</span>
             <span class="nav-text">Geçmiş</span>
         </button>
-        <button class="nav-item" onclick="app.switchTab('profile')">
+        <button type="button" class="nav-item" aria-controls="tab-profile" onclick="app.switchTab('profile')">
             <span class="nav-icon">👤</span>
             <span class="nav-text">Profil</span>
         </button>
     </nav>
 
     <!-- Alert Overlay -->
-    <div class="alert-overlay" id="alertOverlay" style="display: none;">
-        <div class="alert-panel" id="alertPanel">
-            <div class="alert-icon" id="alertIcon">⚡</div>
+    <div class="alert-overlay" id="alertOverlay" style="display: none;" role="presentation">
+        <div class="alert-panel" id="alertPanel" role="dialog" aria-modal="true" aria-labelledby="alertTitle" aria-describedby="alertSubtitle">
+            <div class="alert-icon" id="alertIcon" aria-hidden="true">⚡</div>
             <div class="alert-title" id="alertTitle">YÜKSEK STRES ALGILANDI</div>
             <div class="alert-subtitle" id="alertSubtitle">Haptik Motor Devrede</div>
             <!-- Vibration Pattern in Alert -->
             <div class="alert-vib-pattern alert-vibrating" id="alertVibPattern"></div>
             <div class="alert-vib-label" id="alertVibLabel" style="text-align:center; color: var(--text-secondary);"></div>
             <div class="alert-details" id="alertDetails"></div>
-            <button class="btn alert-btn" id="alertBtn" onclick="app.closeAlert()">Tamam</button>
+            <button type="button" class="btn alert-btn" id="alertBtn" onclick="app.closeAlert()">Tamam</button>
         </div>
     </div>
 
@@ -1935,6 +1979,9 @@ class App {
         if (typeof event !== 'undefined' && event.currentTarget) {
             event.currentTarget.classList.add('active');
         }
+        document.querySelectorAll('.nav-item').forEach(el => {
+            el.toggleAttribute('aria-current', el.getAttribute('aria-controls') === `tab-${tabId}`);
+        });
         
         if (tabId === 'live') {
             setTimeout(() => this.renderer.resize(), 50);
@@ -2485,6 +2532,32 @@ class App {
         const toast = document.getElementById('saveToast');
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    clearStoredData() {
+        if (!window.confirm('Bu cihazdaki kayıtlı profil verisi silinsin mi?')) return;
+
+        try {
+            localStorage.removeItem(this.profileStorageKey);
+            localStorage.removeItem(this.legacyProfileStorageKey);
+            sessionStorage.removeItem(this.profileStorageKey);
+            sessionStorage.removeItem(this.legacyProfileStorageKey);
+        } catch (e) {
+            // Storage can be disabled by the browser; clear the visible form anyway.
+        }
+
+        this.profileFields.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.value = '';
+        });
+
+        const toast = document.getElementById('saveToast');
+        toast.textContent = '✅ Profil verileri bu cihazdan silindi.';
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.textContent = '✅ Profil bilgileri kaydedildi!';
+        }, 2500);
     }
 
     loadProfile() {
