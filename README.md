@@ -38,9 +38,10 @@ Gerçek kişisel veya sağlık bilgisi girmeden önce bu prototip sınırların�
 
 ## Doğrulama
 
-Her push ve pull request, statik HTML erişilebilirlik işaretlerini ve gerekli demo
-öğelerini kontrol eden standart Python testini çalıştırır. Proje derleme adımı
-gerektirmeyen bağımsız bir statik prototiptir.
+Her push ve pull request, statik HTML kontrollerinin yanında Chromium üzerinde
+EKG çiziminin görünürlük/kare hızı davranışını, profil kaydetme-silme ve uyarı
+senaryolarını test eder. Tarayıcı testlerini yerelde çalıştırmak için `npm ci`,
+`npx playwright install chromium` ve `npm run test:browser` kullanın.
 
 ## Belgeler
 
